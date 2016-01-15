@@ -7,6 +7,7 @@ long long a[4 * 101010];
 long long d[4 * 101010];
 
 void push(int cur, int l, int r) {
+    if (d[cur] == 0 && a[cur] == 0) return;
     int m = (l + r) / 2;
     int dcur = cur + cur;
     
@@ -37,9 +38,7 @@ void update(int cur, int l, int r, int x, int y, int qa, int qd) {
         int m = (l + r) / 2;
         int dcur = cur + cur;
         
-        if (d[cur] != 0 || a[cur] != 0) {
-            push(cur, l, r);
-        }
+        push(cur, l, r);
         
         update(dcur, l, m, x, y, qa, qd);
         update(dcur + 1, m + 1, r, x, y, qa + qd * max(0, m - x + 1), qd);
@@ -57,10 +56,8 @@ long long get_sum(int cur, int l, int r, int x, int y) {
     } else {
         int m = (l + r) / 2;
         int dcur = cur + cur;
+        push(cur, l, r);
         
-        if (d[cur] != 0 || a[cur] != 0) {
-            push(cur, l, r);
-        }
         return get_sum(dcur, l, m, x, y) + get_sum(dcur + 1, m + 1, r, x, y);
     }
 }
